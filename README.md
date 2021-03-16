@@ -1,2 +1,2 @@
 # UnBTools
-UnB Tools Chrome Extension repo
+Para cadastrar os e-mails dos alunos no MS Teams é importante utilizar o e-mail institucional do estudante, i.e., terminado em aluno.unb.br. Esta extensão mostrará na tela do SIGAA o e-mail institucional de todos os alunos de cada turma, isto facilita o cadastro em lote (via Windows PowerShell/Terminal). Além disso, a extensão ativa automaticamente o modo de edição ao acessar uma página do seu curso no aprender3 da UnB, mesmo quando o botão de 'Ativar Edição' tenha sumido graças a alguma atualização infeliz do sistema e sem modificar o tema padrão. 
