@@ -114,35 +114,79 @@ function aprender3() {
 
 
 function sigaa() {
-    // e-mails
-    let divelem = window.document.getElementById('divEmails');
-    if (typeof divelem !== 'undefined' && divelem !== null) {
-        let pattern = /Matr.+cula: <em>\s*(?<mat>\d{9})\s*</gi;
-        let results = content.matchAll(pattern);
-        let inHTML = '<div align="center" style="color: blue;font-weight:bold;">'
-            + 'Lista de e-mails INSTITUCIONAIS dos discentes</div><br><div id="divEmails2" align="center"'
-            + 'style="border: 1px solid;"><br>emails<br>';
-        for (let result of results) {
-            let {all, mat} = result.groups;
-            let email = mat+"@aluno.unb.br<br>";
-            inHTML += email;
-        }
-        inHTML += "<br></div>";
-        let newdiv = document.createElement("div");
-        insertAfter(divelem, newdiv);
-        newdiv.innerHTML = inHTML;
-        newdiv.style.display = "block";
-    }
-
-    // Horários: procura por todos os textos e, onde reconhecer o padrão de horário, executa a substituição
+    // Format horários
+    // procura por todos os textos e, onde reconhecer o padrão de horário, executa a substituição
     let node;
-    while(node = treeWalker.nextNode()){
+    while (node = treeWalker.nextNode()) {
         node.textContent = node.textContent.replace(padraoSigaa,separaDias);
         node.textContent = ordenaDias(node.textContent);
         node.textContent = node.textContent.replace(padraoSigaa,mapeiaHorarios);
         // por fim, junta as ocorrências 12:00-12:55/12:55-13:50 em simplesmente 12:00-13:50
         node.textContent = node.textContent.replace(/([A-Z]{3}) 12:00-12:55 ([A-Z]{3}) 12:55-13:50/gm, '$1 12:00-13:50')
     }
+
+    // target html element
+    let divelem = window.document.getElementById('divEmails');
+
+    // skip if div elem not found...
+    if (typeof divelem == 'undefined' || divelem == null) return;
+
+    // regex patterns
+    let matPattern = /Matr.+cula: <em>\s*(?<mat>\d{9})\s*</gi;
+    let namePattern = /<strong>\n\s+(?<name>[A-Za-z\u00C0-\u00FF ]+)\n/g;
+
+    // regex search results
+    let matResults = content.matchAll(matPattern);
+    if (typeof matResults == 'undefined') return;
+
+    let nameResults = content.matchAll(namePattern);
+    if (typeof nameResults == 'undefined') return;
+
+    // array of extracted emails
+    let emails = [];
+    for (let result of matResults) {
+        let {all, mat} = result.groups;
+        emails.push(mat+"@aluno.unb.br");
+    }
+
+    // array of extracted names
+    let names = [];
+    for (let result of nameResults) {
+        let {all, name} = result.groups;
+        names.push(name.replace(/ +(?= )/g,'').toUpperCase());
+    }
+
+    // quick validation for email and names
+    if (emails.length != names.length) {
+        return;
+    }
+
+    // build new html content
+    let emailHeader = '<br><div align="center" style="color: blue;font-weight:bold;">'
+        + 'Lista de e-mails INSTITUCIONAIS dos discentes</div><br><div id="divEmails2" align="center"'
+        + 'style="border: 1px solid;"><br>emails<br>';
+    let userHeader = '<br><div align="center" style="color: blue;font-weight:bold;">'
+        + 'Lista de Usuários para Cadastro no Moodle</div><br><div id="divEmails3" align="center"'
+        + 'style="border: 1px solid;"><br>username;firstname;lastname;email<br>';
+    let emailHTML = emailHeader + emails.join('<br>') + "<br><br></div>";
+    var len=names.length;
+    let userHTML = userHeader;
+    for (var i = 0; i < len; i++) {
+        nms = names[i].split(" ");
+        userHTML += emails[i].split("@")[0] + ";" + nms[0] + ";" + nms.slice(1).join(" ") + ";" + emails[i] + "<br>";
+    }
+    userHTML += "<br></div>";
+
+    // create and show new html elements
+    divelem.style.display = "block";
+    let emaildiv = document.createElement("div");
+    insertAfter(divelem, emaildiv);
+    emaildiv.innerHTML = emailHTML;
+    emaildiv.style.display = "block";
+    let userdiv = document.createElement("div");
+    insertAfter(emaildiv, userdiv);
+    userdiv.innerHTML = userHTML;
+    userdiv.style.display = "block";
 }
 
 
