@@ -34,7 +34,7 @@ Write-Output $users
 
 ```powershell
 foreach ($user in $users.User) {
-  Remove-TeamUser -GroupId $groupid -User $user -Role Member -ErrorAction:Ignore
+  Remove-TeamUser -GroupId $groupid -User $user -Role Member -ErrorAction Ignore
 }
 Get-TeamUser -GroupId $groupid | select user
 ```
