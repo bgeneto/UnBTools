@@ -3,10 +3,10 @@
 A GroupId (or Team ID) is a unique identifier (UID) related to a specific team within Microsoft Teams. 
 The reason that this so important is because most of the administrative actions you will use to automate tasks will utilize this value.
 
-To find all GroupIds of your teams, paste commands below (use your own/real e-mail address) in your PowerShell prompt:
+To find all GroupIds of your teams, paste commands below (change to your own/real e-mail address) in your PowerShell prompt:
 
 ```powershell
-$myemail="<your_username>@unb.br"
+$myemail = "<your_username>@unb.br"
 ```
 
 then issue the following command
@@ -15,10 +15,10 @@ then issue the following command
 Get-Team -User $myemail | select-object GroupId,DisplayName | ft -wrap
 ```
 
-Take note of the desired GroupId and then save it in an environment variable:
+Take note of the desired GroupId and then save it in a variable/object:
 
 ```powershell
-$groupid="c05f72ff-b7e5-42f6-99e3-5f87cfd3ef7c"
+$groupid = "c05f72ff-b7e5-42f6-99e3-5f87cfd3ef7c"
 ```
 
 # Listing users
@@ -42,6 +42,6 @@ Get-TeamUser -GroupId $groupid | select user
 # Adding users from a CSV file
 
 ```powershell
-Import-Csv -Path "C:\Temp\emails.csv" | foreach{Add-TeamUser -GroupId $groupid -user $_.emails}
+Import-Csv -Path "C:\Temp\emails.csv" | foreach {Add-TeamUser -GroupId $groupid -user $_.emails}
 Get-TeamUser -GroupId $groupid | select user
 ```
