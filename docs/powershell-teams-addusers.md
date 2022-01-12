@@ -42,6 +42,7 @@ Get-TeamUser -GroupId $groupid | select user
 # Adding users from a CSV file
 
 ```powershell
-Import-Csv -Path "C:\Temp\emails.csv" | foreach {Add-TeamUser -GroupId $groupid -user $_.emails}
+$file = "C:\Temp\emails.csv"
+Import-Csv -Path $file | foreach {Add-TeamUser -GroupId $groupid -user $_.emails}
 Get-TeamUser -GroupId $groupid | select user
 ```
