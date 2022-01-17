@@ -25,7 +25,7 @@ Get-Team -User $myemail | select-object GroupId,DisplayName | ft -wrap
 Take note of the desired GroupId and then save it in a variable/object:
 
 ```powershell
-$groupid = "c05f72ff-b7e5-42f6-99e3-5f87cfd3ef7c"
+$groupid = "c05f72ff-b7e5-42f6-99e3-5f87cfd3ef6d"
 ```
 
 # Listing users
