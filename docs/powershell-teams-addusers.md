@@ -1,3 +1,10 @@
+# Install Teams Module for PowerShell 
+
+```powershell
+Install-Module MicrosoftTeams
+Connect-MicrosoftTeams
+```
+
 # Finding GroupId
 
 A GroupId (or Team ID) is a unique identifier (UID) related to a specific team within Microsoft Teams. 
